@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MALAV DESAI | Building Impossible Things</title>
+    <meta name="description" content="Building sportyfy.live. Scaling impossible things. 11+ years of turning constraints into creativity.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Wait for Tailwind to be available before configuring
+        window.addEventListener('load', function() {
+            if (typeof tailwind !== 'undefined') {
+                tailwind.config = {
+                    theme: {
+                        extend: {
+                            fontFamily: {
+                                mono: ['JetBrains Mono', 'Consolas', 'Monaco', 'monospace'],
+                                sans: ['Inter', 'system-ui', 'sans-serif'],
+                            },
+                            colors: {
+                                primary: '#000000',
+                                secondary: '#666666',
+                                accent: '#333333',
+                            },
+                        },
+                    },
+                };
+            }
+        });
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap');
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+        
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.025em;
+        }
+        
+        .section-indicator {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 40;
+        }
+        
+        .section-dot {
+            width: 8px;
+            height: 8px;
+            border: 1px solid #666;
+            border-radius: 50%;
+            margin: 1rem 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .section-dot.active {
+            background: #000;
+            border-color: #000;
+        }
+        
+        .section-dot:hover {
+            background: #333;
+            border-color: #333;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 2px;
+            background: #000;
+            z-index: 50;
+            transition: width 0.3s ease;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .grid-background {
+            background-image: 
+                linear-gradient(to right, #f0f0f0 1px, transparent 1px),
+                linear-gradient(to bottom, #f0f0f0 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .text-shadow {
+            text-shadow: 2px 2px 0px #fff, -2px -2px 0px #fff, 2px -2px 0px #fff, -2px 2px 0px #fff;
+        }
+        
+        .hover-underline:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 2px;
+            text-underline-offset: 4px;
+        }
+        
+        @media (max-width: 768px) {
+            .section-indicator {
+                display: none;
+            }
+        }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            text-decoration: none;
+            transition: top 0.3s;
+        }
+        
+        .skip-link:focus {
+            top: 6px;
+        }
+        
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .text-secondary {
+                color: #000 !important;
+            }
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .fade-in {
+                transition: none;
+            }
+            .section-dot {
+                transition: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-black">
+    
+    <!-- Skip to content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Progress Bar -->
+    <div class="progress-bar" style="width: 0%"></div>
+    
+    <!-- Section Navigation Dots -->
+    <nav class="section-indicator" aria-label="Page sections">
+        <div class="section-dot active" data-section="0" aria-label="Introduction"></div>
+        <div class="section-dot" data-section="1" aria-label="Current Project"></div>
+        <div class="section-dot" data-section="2" aria-label="Background"></div>
+        <div class="section-dot" data-section="3" aria-label="Technical Skills"></div>
+        <!-- <div class="section-dot" data-section="4" aria-label="Projects"></div> -->
+        <div class="section-dot" data-section="5" aria-label="Experience"></div>
+        <div class="section-dot" data-section="6" aria-label="Contact"></div>
+    </nav>
+
+    <!-- Header Navigation -->
+    <header class="fixed w-full px-6 py-6 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+        <nav class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="text-xl font-bold mono">
+                MALAV.DESAI
+            </div>
+            <div class="hidden md:flex gap-8 mono text-sm">
+                <a href="#intro" class="text-secondary hover:text-black hover-underline transition-colors">INTRO</a>
+                <a href="#building" class="text-secondary hover:text-black hover-underline transition-colors">BUILDING</a>
+                <!-- <a href="#projects" class="text-secondary hover:text-black hover-underline transition-colors">PROJECTS</a> -->
+                <a href="#experience" class="text-secondary hover:text-black hover-underline transition-colors">WORK</a>
+                <a href="#contact" class="text-secondary hover:text-black hover-underline transition-colors">CONTACT</a>
+            </div>
+            <!-- Mobile menu button -->
+            <button class="md:hidden text-2xl" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+                ☰
+            </button>
+        </nav>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-gray-200">
+            <div class="flex flex-col gap-4 mono text-sm">
+                <a href="#intro" class="text-secondary hover:text-black transition-colors">INTRO</a>
+                <a href="#building" class="text-secondary hover:text-black transition-colors">BUILDING</a>
+                <a href="#projects" class="text-secondary hover:text-black transition-colors">PROJECTS</a>
+                <a href="#experience" class="text-secondary hover:text-black transition-colors">WORK</a>
+                <a href="#contact" class="text-secondary hover:text-black transition-colors">CONTACT</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section id="intro" class="min-h-screen flex items-center px-6 pt-24 pb-16">
+            <div class="max-w-6xl mx-auto w-full">
+                <div class="fade-in">
+                    <div class="mono text-sm text-secondary mb-8 tracking-wide">
+                        [CURIOUS_KID_WHO_CODES]
+                    </div>
+                    
+                    <h1 class="text-6xl md:text-8xl font-black leading-none mb-12">
+                        BUILDING<br>
+                        IMPOSSIBLE<br>
+                        THINGS
+                    </h1>
+                    
+                    <div class="max-w-2xl mb-16">
+                        <p class="text-xl md:text-2xl text-secondary leading-relaxed mb-6">
+                            11+ years turning constraints into creativity.
+                        </p>
+                        <p class="text-lg text-secondary leading-relaxed">
+                            Currently revolutionizing sports infrastructure with <strong>sportyfy.live</strong> — 
+                            digital portfolios for athletes, recruitment ecosystem, the works.
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mono text-sm">
+                        <div>
+                            <div class="text-2xl font-bold text-black mb-1">24H</div>
+                            <div class="text-secondary">SPORTS/MONTH</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-black mb-1">11+</div>
+                            <div class="text-secondary">YEARS_BUILDING</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-black mb-1">3K+</div>
+                            <div class="text-secondary">APPS/MONTH</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-black mb-1">99.9%</div>
+                            <div class="text-secondary">UPTIME</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Current Mission -->
+        <section id="building" class="min-h-screen flex items-center px-6 py-16 bg-black">
+            <div class="max-w-6xl mx-auto w-full text-white">
+                <div class="fade-in">
+                    <div class="mono text-sm text-gray-400 mb-8 tracking-wide">
+                        [CURRENT_MISSION]
+                    </div>
+                    
+                    <h2 class="text-5xl md:text-7xl font-black mb-12 leading-tight">
+                        SPORTYFY.LIVE
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div>
+                            <p class="text-xl md:text-2xl text-gray-300 mb-8 leading-relaxed">
+                                The sports recruitment ecosystem is broken. Athletes struggle to showcase their skills. 
+                                Recruiters can't find talent efficiently.
+                            </p>
+                            
+                            <p class="text-lg text-gray-400 mb-12 leading-relaxed">
+                                We're building the infrastructure to fix this — digital portfolios, 
+                                performance tracking, direct recruitment channels. Making sports careers more accessible.
+                            </p>
+                            
+                            <div class="space-y-4 mono text-sm">
+                                <div class="flex justify-between border-b border-gray-700 pb-2">
+                                    <span class="text-gray-400">STATUS</span>
+                                    <span class="text-white">IN_DEVELOPMENT</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-700 pb-2">
+                                    <span class="text-gray-400">STACK</span>
+                                    <span class="text-white">RAILS_+_NEXTJS</span>
+                                </div>
+                                <div class="flex justify-between border-b border-gray-700 pb-2">
+                                    <span class="text-gray-400">TARGET</span>
+                                    <span class="text-white">ATHLETES_+_RECRUITERS</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-900 p-8 rounded-lg">
+                            <div class="mono text-xs text-gray-500 mb-4">
+                                // Core features in development
+                            </div>
+                            <div class="space-y-3 mono text-sm">
+                                <div class="text-white">→ athlete_portfolios()</div>
+                                <div class="text-white">→ performance_analytics()</div>
+                                <div class="text-white">→ recruitment_matching()</div>
+                                <div class="text-white">→ opportunity_alerts()</div>
+                                <div class="text-gray-400">→ // more_coming_soon...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Background -->
+        <section id="background" class="min-h-screen flex items-center px-6 py-16">
+            <div class="max-w-6xl mx-auto w-full">
+                <div class="fade-in">
+                    <div class="mono text-sm text-secondary mb-8 tracking-wide">
+                        [BACKGROUND_STORY]
+                    </div>
+                    
+                    <h2 class="text-5xl md:text-7xl font-black mb-12 leading-tight">
+                        ATHLETE<br>
+                        ↔<br>
+                        DEVELOPER
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                        <div>
+                            <p class="text-xl text-secondary mb-8 leading-relaxed">
+                                I play basketball and badminton religiously — 24 hours every month. 
+                                I also build software systems that scale to thousands of users.
+                            </p>
+                            
+                            <p class="text-lg text-secondary mb-8 leading-relaxed">
+                                The athlete mindset translates perfectly to development: discipline, 
+                                iteration, performance under pressure, and understanding that constraints 
+                                often lead to the most creative solutions.
+                            </p>
+                            
+                            <blockquote class="border-l-4 border-black pl-6 mono text-lg mb-8">
+                                "Constraints breed creativity. Whether scaling visa platforms to 10,000+ 
+                                users or building sustainable sports infrastructure with limited resources."
+                            </blockquote>
+                        </div>
+                        
+                        <div class="space-y-8">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="mono text-lg font-bold mb-4">SPORTS_SCHEDULE</h3>
+                                <div class="space-y-2 mono text-sm text-secondary">
+                                    <div>MON → Basketball (2h)</div>
+                                    <div>WED → Badminton (2h)</div>
+                                    <div>FRI → Basketball (2h)</div>
+                                    <div>SUN → Mixed Training (2h)</div>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <h3 class="mono text-lg font-bold mb-4">DEVELOPMENT_PHILOSOPHY</h3>
+                                <div class="space-y-2 mono text-sm text-secondary">
+                                    <div>→ constraints_first_design()</div>
+                                    <div>→ performance_over_perfection()</div>
+                                    <div>→ iterate_fast_break_things()</div>
+                                    <div>→ scale_when_necessary()</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Skills -->
+        <section id="skills" class="min-h-screen flex items-center px-6 py-16 bg-gray-50">
+            <div class="max-w-6xl mx-auto w-full">
+                <div class="fade-in">
+                    <div class="mono text-sm text-secondary mb-8 tracking-wide">
+                        [TECHNICAL_ARSENAL]
+                    </div>
+                    
+                    <h2 class="text-5xl md:text-7xl font-black mb-12 leading-tight">
+                        HOW_I_SCALE<br>
+                        IMPOSSIBLE<br>
+                        THINGS
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="mono text-lg font-bold mb-3">RUBY_ON_RAILS</h3>
+                            <p class="text-sm text-secondary">My favorite. Elegant, productive, battle-tested for rapid development.</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="mono text-lg font-bold mb-3">NEXTJS_NESTJS</h3>
+                            <p class="text-sm text-secondary">Enterprise architecture that scales. Modern JavaScript ecosystem.</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="mono text-lg font-bold mb-3">FLUTTER</h3>
+                            <p class="text-sm text-secondary">Cross-platform mobile magic. Single codebase, multiple platforms.</p>
+                        </div>
+                        
+                        <div class="bg-white p-6 rounded-lg border border-gray-200">
+                            <h3 class="mono text-lg font-bold mb-3">AWS_INFRASTRUCTURE</h3>
+                            <p class="text-sm text-secondary">Cloud infrastructure that doesn't break. Scalable, reliable, cost-effective.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-black text-white p-8 rounded-lg">
+                        <div class="mono text-sm text-gray-400 mb-4">
+                            // My approach to building systems
+                        </div>
+                        <div class="space-y-2 mono text-sm">
+                            <div><span class="text-gray-400">01.</span> understand_constraints()</div>
+                            <div><span class="text-gray-400">02.</span> design_minimal_viable_solution()</div>
+                            <div><span class="text-gray-400">03.</span> build_iterate_measure()</div>
+                            <div><span class="text-gray-400">04.</span> scale_when_users_demand_it()</div>
+                            <div><span class="text-gray-400">05.</span> optimize_for_performance_not_perfection()</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <!-- <section id="projects" class="min-h-screen flex items-center px-6 py-16 bg-gray-50">
+            <div class="max-w-6xl mx-auto w-full">
+                <div class="fade-in">
+                    <div class="mono text-sm text-secondary mb-8 tracking-wide">
+                        [EXPERIMENTAL_PROJECTS]
+                    </div>
+                    
+                    <h2 class="text-5xl md:text-7xl font-black mb-12 leading-tight">
+                        BUILDING<br>
+                        MICRO<br>
+                        SOLUTIONS
+                    </h2>
+                    
+                    <p class="text-xl text-secondary mb-16 max-w-3xl leading-relaxed">
+                        Small experiments that solve real problems. Each project demonstrates 
+                        a different aspect of how I think and build.
+                    </p> -->
+                    
+                    <!-- Assumption Challenger Project -->
+                    <!-- <div class="bg-white border border-gray-200 rounded-lg p-8 mb-16">
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                            <div class="lg:col-span-2">
+                                <div class="flex items-center gap-4 mb-6">
+                                    <div class="text-3xl">🤔</div>
+                                    <h3 class="text-3xl font-bold mono">ASSUMPTION_CHALLENGER</h3>
+                                </div>
+                                
+                                <p class="text-lg text-secondary mb-6 leading-relaxed">
+                                    Daily tool that presents common assumptions and asks "But why?" 
+                                    Because I question existence, you should question assumptions.
+                                </p>
+                                
+                                <div class="space-y-4 mb-6">
+                                    <div class="bg-gray-50 p-4 rounded-lg">
+                                        <div class="mono text-sm text-secondary mb-2">TODAY'S CHALLENGE:</div>
+                                        <div class="text-base font-medium mb-2">"Success means earning more money"</div>
+                                        <div class="text-sm text-secondary">But why? Who defined success this way? What if impact matters more than income?</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-4 mono text-sm mb-6">
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">ASSUMPTIONS</div>
+                                        <div class="text-lg font-bold">500+</div>
+                                    </div>
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">CATEGORIES</div>
+                                        <div class="text-lg font-bold">LIFE_WORK_SOCIETY</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-4">
+                                    <button class="bg-black text-white px-6 py-3 rounded-lg mono text-sm hover:bg-gray-800 transition-colors">
+                                        TRY_LIVE_DEMO
+                                    </button>
+                                    <button class="border border-gray-300 text-black px-6 py-3 rounded-lg mono text-sm hover:bg-gray-50 transition-colors">
+                                        VIEW_CODE
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="bg-black text-white p-6 rounded-lg">
+                                <div class="mono text-xs text-gray-400 mb-4">
+                                    // Core philosophy
+                                </div>
+                                <div class="space-y-2 mono text-sm">
+                                    <div><span class="text-gray-400">01.</span> question_everything()</div>
+                                    <div><span class="text-gray-400">02.</span> challenge_norms()</div>
+                                    <div><span class="text-gray-400">03.</span> think_deeper()</div>
+                                    <div><span class="text-gray-400">04.</span> find_truth()</div>
+                                    <div class="text-gray-400 mt-4">// Because assumptions</div>
+                                    <div class="text-gray-400">// are just unquestioned</div>
+                                    <div class="text-gray-400">// beliefs</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    
+                    <!-- Coming Soon Projects -->
+                    <!-- <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="bg-white border border-gray-200 rounded-lg p-6 opacity-60">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="text-2xl">🏀</div>
+                                <h4 class="text-xl font-bold mono">COURT_FINDER</h4>
+                            </div>
+                            <p class="text-sm text-secondary mb-4">Real-time basketball court availability in Bengaluru</p>
+                            <div class="mono text-xs text-secondary">COMING_SOON</div>
+                        </div>
+                        
+                        <div class="bg-white border border-gray-200 rounded-lg p-6 opacity-60">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="text-2xl">💰</div>
+                                <h4 class="text-xl font-bold mono">RUPEE_TRACKER</h4>
+                            </div>
+                            <p class="text-sm text-secondary mb-4">Expense tracking built for Indian spending patterns</p>
+                            <div class="mono text-xs text-secondary">COMING_SOON</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- Experience -->
+        <section id="experience" class="min-h-screen flex items-center px-6 py-16">
+            <div class="max-w-6xl mx-auto w-full">
+                <div class="fade-in">
+                    <div class="mono text-sm text-secondary mb-8 tracking-wide">
+                        [BATTLE_TESTED_EXPERIENCE]
+                    </div>
+                    
+                    <h2 class="text-5xl md:text-7xl font-black mb-12 leading-tight">
+                        PLATFORMS<br>
+                        CONQUERED
+                    </h2>
+                    
+                    <div class="space-y-16">
+                        <!-- Teleport -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                            <div class="lg:col-span-2">
+                                <h3 class="text-3xl font-bold mono mb-6">TELEPORT</h3>
+                                <p class="text-lg text-secondary mb-6 leading-relaxed">
+                                    Architected B2C visa platform from zero to enterprise scale. 
+                                    Handled 3,000+ applications monthly with 99.9% uptime, reducing 
+                                    processing time by 75%.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 mono text-sm">
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">APPLICATIONS</div>
+                                        <div class="text-xl font-bold">3K+/month</div>
+                                    </div>
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">UPTIME</div>
+                                        <div class="text-xl font-bold">99.9%</div>
+                                    </div>
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">TIME_SAVED</div>
+                                        <div class="text-xl font-bold">75%</div>
+                                    </div>
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">STACK</div>
+                                        <div class="text-xl font-bold">NEXTJS_NESTJS</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-6 rounded-lg text-center">
+                                <div class="text-6xl mb-4">🚀</div>
+                                <div class="mono text-sm text-secondary">VISA_PLATFORM</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Rirev -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                            <div class="bg-gray-100 p-6 rounded-lg text-center">
+                                <div class="text-6xl mb-4">📱</div>
+                                <div class="mono text-sm text-secondary">MOBILE_DEVELOPMENT</div>
+                            </div>
+                            <div class="lg:col-span-2">
+                                <h3 class="text-3xl font-bold mono mb-6">RIREV</h3>
+                                <p class="text-lg text-secondary mb-6 leading-relaxed">
+                                    Full-stack development for enterprise clients including Swiggy. 
+                                    Specialized in Flutter mobile applications and scalable backend systems.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 mono text-sm">
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">CLIENTS</div>
+                                        <div class="text-xl font-bold">ENTERPRISE</div>
+                                    </div>
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">PLATFORM</div>
+                                        <div class="text-xl font-bold">MOBILE</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Curative -->
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                            <div class="lg:col-span-2">
+                                <h3 class="text-3xl font-bold mono mb-6">CURATIVE</h3>
+                                <p class="text-lg text-secondary mb-6 leading-relaxed">
+                                    Innovative micro-blogging platform that transforms 5 links into 
+                                    automated blog content. Experimentation with AI-powered content generation.
+                                </p>
+                                <div class="grid grid-cols-2 gap-4 mono text-sm">
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">INPUT</div>
+                                        <div class="text-xl font-bold">5_LINKS</div>
+                                    </div>
+                                    <div class="border border-gray-200 p-4 rounded">
+                                        <div class="text-xs text-secondary mb-1">OUTPUT</div>
+                                        <div class="text-xl font-bold">AUTO_BLOG</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-100 p-6 rounded-lg text-center">
+                                <div class="text-6xl mb-4">✍️</div>
+                                <div class="mono text-sm text-secondary">AI_CONTENT</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="min-h-screen flex items-center px-6 py-16 bg-black text-white">
+            <div class="max-w-6xl mx-auto w-full text-center">
+                <div class="fade-in">
+                    <div class="mono text-sm text-gray-400 mb-8 tracking-wide">
+                        [READY_TO_COLLABORATE]
+                    </div>
+                    
+                    <h2 class="text-5xl md:text-7xl font-black mb-12 leading-tight">
+                        LET'S_BUILD<br>
+                        SOMETHING<br>
+                        IMPOSSIBLE
+                    </h2>
+                    
+                    <p class="text-xl md:text-2xl text-gray-300 mb-16 max-w-3xl mx-auto leading-relaxed">
+                        Sports infrastructure revolution? Platform that scales to millions? 
+                        System that everyone said couldn't be built? Let's make it happen.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-1 mb-16 max-w-xl mx-auto">
+                        <a href="mailto:malav1410@gmail.com" 
+                           class="bg-white text-black p-6 rounded-lg hover:bg-gray-100 transition-colors group">
+                            <div class="text-2xl mb-3">✉️</div>
+                            <h3 class="mono text-lg font-bold mb-2">EMAIL</h3>
+                            <p class="mono text-sm text-secondary">malav1410@gmail.com</p>
+                        </a>
+                        
+                        <!-- <a href="https://wa.me/919725018097" 
+                           class="bg-white text-black p-6 rounded-lg hover:bg-gray-100 transition-colors group" 
+                           target="_blank" rel="noopener noreferrer">
+                            <div class="text-2xl mb-3">💬</div>
+                            <h3 class="mono text-lg font-bold mb-2">WHATSAPP</h3>
+                            <p class="mono text-sm text-secondary">+91 97250 18097</p>
+                        </a> -->
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <a href="https://www.linkedin.com/in/desaimalav/" 
+                           class="mono text-lg hover-underline text-gray-300 hover:text-white transition-colors"
+                           target="_blank" rel="noopener noreferrer">
+                            linkedin.com/in/desaimalav
+                        </a>
+                        <div class="mono text-sm text-gray-500">
+                            BENGALURU_INDIA // 2025
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Progress bar and section navigation
+        let sections = [];
+        let currentSection = 0;
+        
+        function initializeNavigation() {
+            sections = document.querySelectorAll('section');
+            updateProgressBar();
+            updateSectionIndicators();
+            
+            // Add click handlers to section dots
+            document.querySelectorAll('.section-dot').forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    sections[index].scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
+        
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            document.querySelector('.progress-bar').style.width = scrollPercent + '%';
+        }
+        
+        function updateSectionIndicators() {
+            const scrollTop = window.pageYOffset + window.innerHeight / 2;
+            
+            sections.forEach((section, index) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.offsetHeight;
+                const sectionBottom = sectionTop + sectionHeight;
+                
+                if (scrollTop >= sectionTop && scrollTop < sectionBottom) {
+                    currentSection = index;
+                }
+            });
+            
+            // Update active dot
+            document.querySelectorAll('.section-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentSection);
+            });
+        }
+        
+        // Fade in animation on scroll
+        function handleScrollAnimations() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            fadeElements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+        
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        // Smooth scrolling for navigation links
+        function initializeSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobile-menu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+        }
+        
+        // Keyboard navigation
+        function initializeKeyboardNavigation() {
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowDown' || e.key === 'j') {
+                    e.preventDefault();
+                    if (currentSection < sections.length - 1) {
+                        sections[currentSection + 1].scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else if (e.key === 'ArrowUp' || e.key === 'k') {
+                    e.preventDefault();
+                    if (currentSection > 0) {
+                        sections[currentSection - 1].scrollIntoView({ behavior: 'smooth' });
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    sections[0].scrollIntoView({ behavior: 'smooth' });
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    sections[sections.length - 1].scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        }
+        
+        // Error handling for contact links
+        function initializeContactValidation() {
+            const emailLink = document.querySelector('a[href^="mailto:"]');
+            const whatsappLink = document.querySelector('a[href^="https://wa.me/"]');
+            
+            if (emailLink) {
+                emailLink.addEventListener('click', () => {
+                    // Show feedback that email client should open
+                    console.log('Opening email client...');
+                });
+            }
+            
+            if (whatsappLink) {
+                whatsappLink.addEventListener('click', () => {
+                    // Show feedback that WhatsApp should open
+                    console.log('Opening WhatsApp...');
+                });
+            }
+        }
+        
+        // Scroll event handler
+        function handleScroll() {
+            updateProgressBar();
+            updateSectionIndicators();
+            handleScrollAnimations();
+        }
+        
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeNavigation();
+            initializeSmoothScrolling();
+            initializeKeyboardNavigation();
+            initializeContactValidation();
+            handleScrollAnimations();
+            
+            // Add scroll event listener with throttling
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        handleScroll();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+        });
+        
+        // Resize handler
+        window.addEventListener('resize', () => {
+            updateProgressBar();
+            updateSectionIndicators();
+        });
+        
+        // Focus management for accessibility
+        document.addEventListener('focusin', (e) => {
+            if (e.target.matches('a, button, input, textarea, select')) {
+                e.target.style.outline = '2px solid #000';
+                e.target.style.outlineOffset = '2px';
+            }
+        });
+        
+        document.addEventListener('focusout', (e) => {
+            if (e.target.matches('a, button, input, textarea, select')) {
+                e.target.style.outline = '';
+                e.target.style.outlineOffset = '';
+            }
+        });
+        
+        // Prefers reduced motion check
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        
+        if (prefersReducedMotion.matches) {
+            // Disable smooth scrolling for users who prefer reduced motion
+            document.documentElement.style.scrollBehavior = 'auto';
+        }
+        
+        // Service worker registration (for offline capability if needed)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Only register if you have a service worker file
+                // navigator.serviceWorker.register('/sw.js');
+            });
+        }
+    </script>
+</body>
+</html>
